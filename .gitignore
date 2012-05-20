@@ -1,0 +1,5 @@
+.ercpass
+*.~
+backups/*
+elpa/*
+auto-save-list/*
