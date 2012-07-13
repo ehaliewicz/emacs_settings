@@ -23,29 +23,29 @@
 
 
 
-;; ;; ensure that packages are installed
-;; ;; (require 'package)
-;; ;; ;;(package-initialize)
-;; ;; (add-to-list 'package-archives
-;; ;; 	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;; ensure that packages are installed
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
-;; ;; (add-to-list 'package-archives
-;; ;;              '("ELPA" . "http://tromey.com/elpa/") t)
+ (add-to-list 'package-archives
+              '("ELPA" . "http://tromey.com/elpa/") t)
 
-;; ;; (add-to-list 'package-archives
-;; ;;              '("gnu" . "http://elpa.gnu.org/packages/") t)
-;; ;; (package-initialize)
+ (add-to-list 'package-archives
+              '("gnu" . "http://elpa.gnu.org/packages/") t)
+ (package-initialize)
 
-;; ;; (when (not package-archive-contents)
-;; ;;   (package-refresh-contents))
+ (when (not package-archive-contents)
+   (package-refresh-contents))
 
-;; ;; ;; ergoemacs-keybindings
-;; ;; (defvar my-packages '(starter-kit starter-kit-lisp starter-kit-eshell erc zenburn)
-;; ;;   "A list of packages to ensure are installed at launch.")
+;; ergoemacs-keybindings
+ (defvar my-packages '(starter-kit starter-kit-lisp starter-kit-eshell erc zenburn)
+   "A list of packages to ensure are installed at launch.")
 
-;; ;; (dolist (p my-packages)
-;; ;;   (when (not (package-installed-p p))
-;; ;;     (package-install p)))
+ (dolist (p my-packages)
+   (when (not (package-installed-p p))
+     (package-install p)))
 
 
 
@@ -73,16 +73,18 @@
   (run-scheme "kawa"))
 
 ;; load slime
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-     (setq slime-net-coding-system 'utf-8-unix)  
+(add-hook 'lisp-mode-hook (lambda () (progn (paredit-mode t) (slime-mode t))))
+(add-hook 'inferior-lisp-mode-hook (lambda () (inferion-slime-mode t)))
+(setq slime-net-coding-system 'utf-8-unix)
+
 (setq slime-lisp-implementations
-           '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)))
+      '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)))
 (load (expand-file-name "~/code/quicklisp/slime-helper.el"))
- (setq inferior-lisp-program "sbcl" 
-       lisp-indent-function 'common-lisp-indent-function
-       slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-       common-lisp-hyperspec-root "file:///home/erik/code/lisp/HyperSpec/"
-       slime-startup-animation t)
+  (setq inferior-lisp-program "sbcl" 
+        lisp-indent-function 'common-lisp-indent-function
+        slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+        common-lisp-hyperspec-root "file:///home/erik/code/lisp/HyperSpec/"
+        slime-startup-animation t)
 
 
 (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))

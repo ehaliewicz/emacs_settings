@@ -8,7 +8,9 @@
 (setq erc-log-insert-log-on-open nil)
 (setq erc-save-buffer-on-part t)
 (setq erc-hide-timestamps nil)
-(setq erc-autojoin-channels-alist '((".*\\.cyberdynesystems.net" "#japanese.utf8" "#ajatt") ;;("freenode.net")
+(setq erc-autojoin-channels-alist
+      '((".*\\.cyberdynesystems.net" "#japanese.utf8" "#ajatt")
+        ("freenode.net")
                                     ;;("quakenet.org")
                                     ))
 
