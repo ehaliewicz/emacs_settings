@@ -13,13 +13,6 @@
 (load "adoc-mode.el")
 
 
-;; load cedet early to insure it is loaded before pre-installed
-;; versions
-;; See cedet/common/cedet.info for config details
-;; (load-file (concat user-emacs-directory "emacs lisp/" "cedet.el"))
-
-;; prepare jde
-;; (require 'jde)
 
 
 
@@ -34,7 +27,7 @@
 
  (add-to-list 'package-archives
               '("gnu" . "http://elpa.gnu.org/packages/") t)
- (package-initialize)
+(package-initialize)
 
  (when (not package-archive-contents)
    (package-refresh-contents))
@@ -58,7 +51,7 @@
 
 ;; load zenburn
 ;;(load-theme 'solarized-dark)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-to-list 'custom-theme-load-path  (concat user-emacs-directory "themes/"))
 (load-theme 'zenburn)
 ;; line numbers
 (load "linum+.el")
@@ -72,14 +65,15 @@
   (interactive)
   (run-scheme "kawa"))
 
-;; load slime
-(add-hook 'lisp-mode-hook (lambda () (progn (paredit-mode t) (slime-mode t))))
-(add-hook 'inferior-lisp-mode-hook (lambda () (inferion-slime-mode t)))
-(setq slime-net-coding-system 'utf-8-unix)
+(when (not (equalp 'windows-nt system-type))
+  ;; load slime
+  (add-hook 'lisp-mode-hook (lambda () (progn (paredit-mode t) (slime-mode t))))
+  (add-hook 'inferior-lisp-mode-hook (lambda () (inferion-slime-mode t)))
+  (setq slime-net-coding-system 'utf-8-unix)
 
-(setq slime-lisp-implementations
-      '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)))
-(load (expand-file-name "~/code/quicklisp/slime-helper.el"))
+  (setq slime-lisp-implementations
+        '((sbcl ("/usr/bin/sbcl") :coding-system utf-8-unix)))
+  (load (expand-file-name "~/code/quicklisp/slime-helper.el"))
   (setq inferior-lisp-program "sbcl" 
         lisp-indent-function 'common-lisp-indent-function
         slime-complete-symbol-function 'slime-fuzzy-complete-symbol
@@ -87,15 +81,15 @@
         slime-startup-animation t)
 
 
-(add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
- "Stop SLIME's REPL from grabbing DEL,
+  (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
+  "Stop SLIME's REPL from grabbing DEL,
  which is annoying when backspacing over a '('"
- (defun override-slime-repl-bindings-with-paredit ()
-   (define-key slime-repl-mode-map
-       (read-kbd-macro paredit-backward-delete-key) nil))
+  (defun override-slime-repl-bindings-with-paredit ()
+    (define-key slime-repl-mode-map
+      (read-kbd-macro paredit-backward-delete-key) nil))
 
-(add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+  (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit))
+  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
 
 ;; load scheme
@@ -104,7 +98,7 @@
 
 ;; load ergoemacs
 (setenv "ERGOEMACS_KEYBOARD_LAYOUT" "colemak")
-(add-to-list 'load-path "/home/erik/emacs_settings/emacs lisp/ergoemacs-keybindings")
+(add-to-list 'load-path (concat user-emacs-directory "emacs lisp/ergoemacs-keybindings/"))
 (load "~/.emacs.d/emacs lisp/ergoemacs-keybindings/ergoemacs-mode")
 ;; turn off ergoemacs keybindings
 (ergoemacs-mode 0)

@@ -21,10 +21,10 @@
 (erc-services-mode 1)
 (setq erc-prompt-for-nickserv-password nil)
 ;; load password file
-(load  "~/.ercpass")
+;; (load  "~/.ercpass")
 
-(setq erc-nickserv-passwords
-      `((freenode    (("toekutr" . ,freenode-nickone-pass)))))
+;; (setq erc-nickserv-passwords
+;;       `((freenode    (("toekutr" . ,freenode-nickone-pass)))))
 
 (setf erc-log-channels-directory "~/.erc/logs/")
 
